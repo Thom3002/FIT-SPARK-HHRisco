@@ -6,8 +6,8 @@ repos:
     hooks:
     -   id: check-yaml
         stages: [pre-push]
-    -   id: end-of-file-fixer
-        stages: [pre-push]
+    # -   id: end-of-file-fixer
+        # stages: [pre-push]
     -   id: trailing-whitespace
         stages: [pre-push]
 -   repo: https://github.com/psf/black
