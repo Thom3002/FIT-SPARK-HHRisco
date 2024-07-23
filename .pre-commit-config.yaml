@@ -10,11 +10,16 @@ repos:
         # stages: [pre-push]
     -   id: trailing-whitespace
         stages: [pre-push]
--   repo: https://github.com/psf/black
-    rev: 22.10.0
+-   repo: https://github.com/hhatto/autopep8
+    rev: v2.3.1
     hooks:
-    -   id: black
+    -   id: autopep8
         stages: [pre-push]
+# -   repo: https://github.com/psf/black
+#     rev: 22.10.0
+#     hooks:
+#     -   id: black
+#         stages: [pre-push]
 -   repo: https://github.com/PyCQA/isort
     rev: 5.13.2
     hooks:
@@ -23,7 +28,9 @@ repos:
 -   repo: https://github.com/nbQA-dev/nbQA
     rev: 1.8.5
     hooks:
-    -   id: nbqa-black
+    -   id: nbqa-autopep8
         stages: [pre-push]
+    # -   id: nbqa-black
+    #     stages: [pre-push]
     -   id: nbqa-isort
         stages: [pre-push]
