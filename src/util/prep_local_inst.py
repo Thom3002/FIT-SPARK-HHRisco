@@ -1,8 +1,8 @@
 import pandas as pd
 
 # criacao do df de local/coordenada a partir das novas tabelas
-pathIn = "dados/input/"
-pathOut = "dados/util/"
+pathIn = "data/input/"
+pathOut = "data/util/"
 
 df_coord_instalacoes = pd.read_excel(pathIn + "ESUL-LIs-exceto linhas.xlsx")
 # reduzindo as colunas que não serão utilizadas
@@ -43,7 +43,8 @@ def cria_df_nomes_unicos(dfLocalComScore, colSigla):
 
     for i, row in df.iterrows():
         sigla = df.loc[i, colSigla]
-        idx = dfLocalComScore.index[dfLocalComScore[colSigla] == sigla].to_list()
+        idx = dfLocalComScore.index[dfLocalComScore[colSigla]
+                                    == sigla].to_list()
         df.loc[i, "Latitude"] = dfLocalComScore.loc[idx[0], "Latitude"]
         df.loc[i, "Longitude"] = dfLocalComScore.loc[idx[0], "Longitude"]
 
@@ -55,12 +56,16 @@ df_coord_instalacoes["Latitude"] = (
     df_coord_instalacoes["Latitude"].str.replace(",", ".").str.replace("°", "")
 )
 df_coord_instalacoes["Longitude"] = (
-    df_coord_instalacoes["Longitude"].str.replace(",", ".").str.replace("°", "")
+    df_coord_instalacoes["Longitude"].str.replace(
+        ",", ".").str.replace("°", "")
 )
-df_coord_instalacoes["Latitude"] = df_coord_instalacoes["Latitude"].astype(float)
-df_coord_instalacoes["Longitude"] = df_coord_instalacoes["Longitude"].astype(float)
+df_coord_instalacoes["Latitude"] = df_coord_instalacoes["Latitude"].astype(
+    float)
+df_coord_instalacoes["Longitude"] = df_coord_instalacoes["Longitude"].astype(
+    float)
 
-df_siglas_importantes = df_coord_instalacoes.dropna(subset=["Latitude", "Longitude"])
+df_siglas_importantes = df_coord_instalacoes.dropna(
+    subset=["Latitude", "Longitude"])
 
 dict_traducao = agrupa_siglas_de_instalacao(
     df_siglas_importantes, "Local de instalação"
@@ -69,6 +74,7 @@ dict_traducao = agrupa_siglas_de_instalacao(
 # criando os locais de maneira unívoca
 df_coord_instalacoes.dropna(subset=["Latitude", "Longitude"], inplace=True)
 df_coord_instalacoes.replace(dict_traducao, inplace=True)
-df_coord_instalacoes = cria_df_nomes_unicos(df_coord_instalacoes, "Local de instalação")
+df_coord_instalacoes = cria_df_nomes_unicos(
+    df_coord_instalacoes, "Local de instalação")
 
 df_coord_instalacoes.to_csv(pathOut + "instalacao_coordenada.csv")
