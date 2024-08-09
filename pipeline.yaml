@@ -1,0 +1,52 @@
+# Pipeline de build dos códigos
+
+trigger:
+- dev
+
+pr:
+  branches:
+    include:
+      - dev
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '$(python-version)'
+    addToPath: true
+  displayName: 'Versão do Python: $(python-version)'
+
+- script: |
+    pip install -r requirements.txt
+  displayName: 'Instalando dependências'
+
+- script: |
+    python -c "import glob, subprocess; [subprocess.run(['jupyter', 'nbconvert', '--to', 'python', notebook]) for notebook in glob.glob('**/*.ipynb', recursive=True)]"
+  displayName: 'Conversão dos .ipynb para .py'
+
+- script: |
+    cd src/preprocessing/acidentes && python pre-processamento.py
+  displayName: 'Execução do pré processamento de Acidentes'
+  continueOnError: true
+
+- script: |
+    cd src/preprocessing/acidentes && python preparacao.py
+  displayName: 'Execução da preparação de Acidentes'
+  continueOnError: true
+
+- script: |
+    cd src/preprocessing/acidentes && python agrupamento.py
+  displayName: 'Execução do agrupamento de Acidentes'
+  continueOnError: true
+
+- script: |
+    cd src/preprocessing/os && python preparacao-IW47.py
+  displayName: 'Execução da preparação de Operações'
+  continueOnError: true
+
+- script: |
+    cd src/preprocessing/os && python agrupamento.py
+  displayName: 'Execução do agrupamento de Operações'
+  continueOnError: true
