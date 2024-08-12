@@ -1,6 +1,5 @@
 import pandas as pd
 
-print("PREP LOCAL INSTALACOES RODANDO HAHSHSA")
 # criacao do df de local/coordenada a partir das novas tabelas
 pathIn = "data/input/"
 pathOut = "data/util/"
