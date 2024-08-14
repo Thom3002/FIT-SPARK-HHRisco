@@ -34,7 +34,10 @@ REM Executar o script Python de pré-processamento local
 cd "%BASE_DIR%"
 echo Executando prep_local_inst.py...
 python src\util\prep_local_inst.py >nul
-if %ERRORLEVEL% neq 0 echo Falha ao executar prep_local_inst.py
+if %ERRORLEVEL% neq 0 (
+    echo Falha ao executar prep_local_inst.py
+    exit /b %ERRORLEVEL%
+)
 
 
 REM Converter e executar os notebooks de acidentes
@@ -42,21 +45,30 @@ cd "%BASE_DIR%src\preprocessing\acidentes"
 jupyter nbconvert --to python pre-processamento.ipynb >nul
 echo Executando pre-processamento.py...
 python pre-processamento.py >nul
-if %ERRORLEVEL% neq 0 echo Falha ao executar pre-processamento.py
+if %ERRORLEVEL% neq 0 (
+    echo Falha ao executar prep_local_inst.py
+    exit /b %ERRORLEVEL%
+)
 del pre-processamento.py
 
 
 jupyter nbconvert --to python preparacao.ipynb >nul
 echo Executando preparacao.py...
 python preparacao.py >nul
-if %ERRORLEVEL% neq 0 echo Falha ao executar preparacao.py
+if %ERRORLEVEL% neq 0 (
+    echo Falha ao executar prep_local_inst.py
+    exit /b %ERRORLEVEL%
+)
 del preparacao.py
 
 
 jupyter nbconvert --to python agrupamento.ipynb >nul
 echo Executando agrupamento.py...
 python agrupamento.py >nul
-if %ERRORLEVEL% neq 0 echo Falha ao executar agrupamento.py
+if %ERRORLEVEL% neq 0 (
+    echo Falha ao executar prep_local_inst.py
+    exit /b %ERRORLEVEL%
+)
 del agrupamento.py
 
 
@@ -65,30 +77,42 @@ cd "%BASE_DIR%src\preprocessing\os"
 jupyter nbconvert --to python pre-processamento-IW47.ipynb >nul
 echo Executando pre-processamento-IW47.py...
 python pre-processamento-IW47.py >nul
-if %ERRORLEVEL% neq 0 echo Falha ao executar pre-processamento-IW47.py
+if %ERRORLEVEL% neq 0 (
+    echo Falha ao executar prep_local_inst.py
+    exit /b %ERRORLEVEL%
+)
 del pre-processamento-IW47.py
 
 
 jupyter nbconvert --to python preparacao-IW47.ipynb >nul
 echo Executando preparacao-IW47.py...
 python preparacao-IW47.py >nul
-if %ERRORLEVEL% neq 0 echo Falha ao executar preparacao-IW47.py
+if %ERRORLEVEL% neq 0 (
+    echo Falha ao executar prep_local_inst.py
+    exit /b %ERRORLEVEL%
+)
 del preparacao-IW47.py
 
 
 jupyter nbconvert --to python agrupamento.ipynb >nul
 echo Executando agrupamento.py...
 python agrupamento.py >nul
-if %ERRORLEVEL% neq 0 echo Falha ao executar agrupamento.py
+if %ERRORLEVEL% neq 0 (
+    echo Falha ao executar prep_local_inst.py
+    exit /b %ERRORLEVEL%
+)
 del agrupamento.py
 
 REM Converter e executar o notebook de integração
-cd "%BASE_DIR%src\util"
-jupyter nbconvert --to python integra_os_acidentes.ipynb >nul
-echo Executando integra_os_acidentes.py...
-python integra_os_acidentes.py >nul
-if %ERRORLEVEL% neq 0 echo Falha ao executar integra_os_acidentes.py
-del integra_os_acidentes.py
+cd "%BASE_DIR%src\preprocessing\treinamento"
+jupyter nbconvert --to python cruzamento_acidentes_os.ipynb >nul
+echo Executando cruzamento_acidentes_os.py...
+python cruzamento_acidentes_os.py >nul
+if %ERRORLEVEL% neq 0 (
+    echo Falha ao executar prep_local_inst.py
+    exit /b %ERRORLEVEL%
+)
+del cruzamento_acidentes_os.py
 
 
 echo Pipeline concluida.
