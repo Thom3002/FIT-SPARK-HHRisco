@@ -4,11 +4,13 @@ setlocal
 REM Definir o diretório base a partir da localização deste script bat
 set BASE_DIR=%~dp0
 
+echo Inicializando pipeline...
+
 REM Verifica se a venv já existe
 if exist "%BASE_DIR%venv\" (
-    echo Venv já existe no diretório %BASE_DIR%.
+    echo Venv ja existente no diretorio %BASE_DIR%.
 ) else (
-    echo Venv não encontrada. Criando nova venv...
+    echo Venv nao encontrada. Criando nova venv...
     python -m venv "%BASE_DIR%venv"
 
     REM Ativa a venv
@@ -17,10 +19,10 @@ if exist "%BASE_DIR%venv\" (
 
 REM Instala as dependências do requirements.txt
     if exist "%BASE_DIR%requirements.txt" (
-        echo Instalando dependências do requirements.txt...
+        echo Instalando dependencias do requirements.txt...
         pip install -r "%BASE_DIR%requirements.txt"
     ) else (
-        echo Arquivo requirements.txt não encontrado.
+        echo Arquivo requirements.txt nao encontrado.
         exit
     )
 
@@ -34,42 +36,65 @@ echo Executando prep_local_inst.py...
 python src\util\prep_local_inst.py >nul
 if %ERRORLEVEL% neq 0 echo Falha ao executar prep_local_inst.py
 
+
 REM Converter e executar os notebooks de acidentes
 cd "%BASE_DIR%src\preprocessing\acidentes"
-jupyter nbconvert --to python preparacao.ipynb >nul
-echo Executando preparacao.py...
-python preparacao.py >nul
-if %ERRORLEVEL% neq 0 echo Falha ao executar preparacao.py
-del preparacao.py
-
 jupyter nbconvert --to python pre-processamento.ipynb >nul
 echo Executando pre-processamento.py...
 python pre-processamento.py >nul
 if %ERRORLEVEL% neq 0 echo Falha ao executar pre-processamento.py
 del pre-processamento.py
 
+
+jupyter nbconvert --to python preparacao.ipynb >nul
+echo Executando preparacao.py...
+python preparacao.py >nul
+if %ERRORLEVEL% neq 0 echo Falha ao executar preparacao.py
+del preparacao.py
+
+
 jupyter nbconvert --to python agrupamento.ipynb >nul
 echo Executando agrupamento.py...
 python agrupamento.py >nul
 if %ERRORLEVEL% neq 0 echo Falha ao executar agrupamento.py
 del agrupamento.py
 
+
 REM Converter e executar os notebooks de os
 cd "%BASE_DIR%src\preprocessing\os"
+jupyter nbconvert --to python pre-processamento-IW47.ipynb >nul
+echo Executando pre-processamento-IW47.py...
+python pre-processamento-IW47.py >nul
+if %ERRORLEVEL% neq 0 echo Falha ao executar pre-processamento-IW47.py
+del pre-processamento-IW47.py
+
+
 jupyter nbconvert --to python preparacao-IW47.ipynb >nul
 echo Executando preparacao-IW47.py...
 python preparacao-IW47.py >nul
 if %ERRORLEVEL% neq 0 echo Falha ao executar preparacao-IW47.py
 del preparacao-IW47.py
 
+
 jupyter nbconvert --to python agrupamento.ipynb >nul
 echo Executando agrupamento.py...
 python agrupamento.py >nul
 if %ERRORLEVEL% neq 0 echo Falha ao executar agrupamento.py
 del agrupamento.py
 
+REM Converter e executar o notebook de integração
+cd "%BASE_DIR%src\util"
+jupyter nbconvert --to python integra_os_acidentes.ipynb >nul
+echo Executando integra_os_acidentes.py...
+python integra_os_acidentes.py >nul
+if %ERRORLEVEL% neq 0 echo Falha ao executar integra_os_acidentes.py
+del integra_os_acidentes.py
+
+
+echo Pipeline concluida.
+
 REM Voltar para o diretório raiz
-cd "%BASE_DIR%"
+cd "%BASE_DIR%
 
 REM Desativar o ambiente virtual
 deactivate
