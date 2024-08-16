@@ -32,10 +32,10 @@ call venv\Scripts\activate
 
 REM Executar o script Python de pré-processamento local
 cd "%BASE_DIR%"
-echo Executando prep_local_inst.py...
-python src\util\prep_local_inst.py >nul
+echo Executando prep_local.py...
+python src\util\prep_local.py >nul
 if %ERRORLEVEL% neq 0 (
-    echo Falha ao executar prep_local_inst.py
+    echo Falha ao executar prep_local.py
     exit /b %ERRORLEVEL%
 )
 
@@ -46,7 +46,7 @@ jupyter nbconvert --to python pre-processamento.ipynb >nul
 echo Executando pre-processamento.py...
 python pre-processamento.py >nul
 if %ERRORLEVEL% neq 0 (
-    echo Falha ao executar prep_local_inst.py
+    echo Falha ao executar pre-processamento.py
     exit /b %ERRORLEVEL%
 )
 del pre-processamento.py
@@ -56,7 +56,7 @@ jupyter nbconvert --to python preparacao.ipynb >nul
 echo Executando preparacao.py...
 python preparacao.py >nul
 if %ERRORLEVEL% neq 0 (
-    echo Falha ao executar prep_local_inst.py
+    echo Falha ao executar preparacao.py
     exit /b %ERRORLEVEL%
 )
 del preparacao.py
@@ -66,7 +66,7 @@ jupyter nbconvert --to python agrupamento.ipynb >nul
 echo Executando agrupamento.py...
 python agrupamento.py >nul
 if %ERRORLEVEL% neq 0 (
-    echo Falha ao executar prep_local_inst.py
+    echo Falha ao executar agrupamento.py
     exit /b %ERRORLEVEL%
 )
 del agrupamento.py
@@ -78,7 +78,7 @@ jupyter nbconvert --to python pre-processamento-IW47.ipynb >nul
 echo Executando pre-processamento-IW47.py...
 python pre-processamento-IW47.py >nul
 if %ERRORLEVEL% neq 0 (
-    echo Falha ao executar prep_local_inst.py
+    echo Falha ao executar pre-processamento-IW47.py
     exit /b %ERRORLEVEL%
 )
 del pre-processamento-IW47.py
@@ -88,7 +88,7 @@ jupyter nbconvert --to python preparacao-IW47.ipynb >nul
 echo Executando preparacao-IW47.py...
 python preparacao-IW47.py >nul
 if %ERRORLEVEL% neq 0 (
-    echo Falha ao executar prep_local_inst.py
+    echo Falha ao executar preparacao-IW47.py
     exit /b %ERRORLEVEL%
 )
 del preparacao-IW47.py
@@ -98,7 +98,7 @@ jupyter nbconvert --to python agrupamento.ipynb >nul
 echo Executando agrupamento.py...
 python agrupamento.py >nul
 if %ERRORLEVEL% neq 0 (
-    echo Falha ao executar prep_local_inst.py
+    echo Falha ao executar agrupamento.py
     exit /b %ERRORLEVEL%
 )
 del agrupamento.py
@@ -109,7 +109,7 @@ jupyter nbconvert --to python cruzamento_acidentes_os.ipynb >nul
 echo Executando cruzamento_acidentes_os.py...
 python cruzamento_acidentes_os.py >nul
 if %ERRORLEVEL% neq 0 (
-    echo Falha ao executar prep_local_inst.py
+    echo Falha ao executar cruzamento_acidentes_os.py
     exit /b %ERRORLEVEL%
 )
 del cruzamento_acidentes_os.py
