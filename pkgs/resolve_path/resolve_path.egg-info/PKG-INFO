@@ -1,0 +1,5 @@
+Metadata-Version: 2.1
+Name: resolve_path
+Version: 0.1
+Summary: A package to resolve the changing local to global directory adressing between .ipynb and .py files in the same repo.
+Author: Eduardo Eugênio

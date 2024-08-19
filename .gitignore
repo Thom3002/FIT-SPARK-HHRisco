@@ -1,3 +1,5 @@
 venv/
 *.html
 *.pyc
+pkgs/resolve_path/build
+pkgs/resolve_path/resolve_path.egg-info

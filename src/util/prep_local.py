@@ -1,4 +1,11 @@
 import pandas as pd
+from resolve_path import ajuste_path, read_input
+
+pathIn = "data/input/"
+pathOut = "data/util/"
+
+df_lts = read_input(
+    pathIn + "ESUL-LIs-LTs e vaos torres.csv")
 
 
 def keep_columns(df: pd.DataFrame, columns: list):

@@ -1,0 +1,8 @@
+setup.py
+resolve_path/__init__.py
+resolve_path/read_input_file.py
+resolve_path/resolve_dir.py
+resolve_path.egg-info/PKG-INFO
+resolve_path.egg-info/SOURCES.txt
+resolve_path.egg-info/dependency_links.txt
+resolve_path.egg-info/top_level.txt
