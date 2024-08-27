@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legenda de Mapa</title>
+    <style>
+        .map-legend {
+            background: #f9f9f9;
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 200px;
+            font-family: Arial, sans-serif;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .color-box {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        .label {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="map-legend">
+        <div class="legend-item">
+            <div class="color-box" style="background: #FDBE85;"></div>
+            <span class="label">0% - 25%</span>
+        </div>
+        <div class="legend-item">
+            <div class="color-box" style="background: #FD8D3C;"></div>
+            <span class="label">25% - 50%</span>
+        </div>
+        <div class="legend-item">
+            <div class="color-box" style="background: #E6550D;"></div>
+            <span class="label">50% - 75%</span>
+        </div>
+        <div class="legend-item">
+            <div class="color-box" style="background: #A63603;"></div>
+            <span class="label">75% - 100%</span>
+        </div>
+    </div>
+</body>
+</html>
