@@ -1,4 +1,7 @@
 venv/
+env/
+.env/
+.venv/
 *.html
 *.pyc
 pkgs/resolve_path/build
