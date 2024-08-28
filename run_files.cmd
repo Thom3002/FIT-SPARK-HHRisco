@@ -29,6 +29,14 @@ REM Instala as dependências do requirements.txt
 REM Ativar o ambiente virtual
 call venv\Scripts\activate
 
+REM Converte arquivos Excel para csv
+echo Executando traduz_input_excel.py...
+python src\preprocessing\traduz_input_excel.py >nul
+if %ERRORLEVEL% neq 0 (
+    echo Falha ao executar traduz_input_excel.py
+    exit /b %ERRORLEVEL%
+)
+
 
 REM Executar o script Python de pré-processamento local
 cd "%BASE_DIR%"
