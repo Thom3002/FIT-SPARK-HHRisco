@@ -26,9 +26,8 @@ def read_input(input_file):
     if extensao != '.csv':
         raise WrongFileExtensionError(
             message=f'File {input_file} does not use the supported extension. Only .csv files are supported and automatically translated.\n')
-
-    input_file = ajuste_path(input_file)
-    df = pd.read_csv(input_file, sep=get_separator(
+    path = ajuste_path('data/input/')
+    df = pd.read_csv(path + input_file, sep=get_separator(
         input_file), encoding='utf-8')
 
     return df.copy()

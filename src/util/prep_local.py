@@ -1,11 +1,5 @@
 import pandas as pd
-from resolve_path import ajuste_path, read_input
-
-pathIn = "data/input/"
-pathOut = "data/util/"
-
-df_lts = read_input(
-    pathIn + "ESUL-LIs-LTs e vaos torres.csv")
+from resolve_path import read_input
 
 
 def keep_columns(df: pd.DataFrame, columns: list):
@@ -34,13 +28,10 @@ def float_coords(df: pd.DataFrame):
     return df
 
 
-pathIn = "data/input/"
 pathOut = "data/util/"
 
-df_lts = pd.read_excel(
-    pathIn + "ESUL-LIs-LTs e vaos torres.xlsx", engine="calamine")
-df_lis = pd.read_excel(
-    pathIn + "ESUL-LIs-exceto linhas.XLSX", engine="calamine")
+df_lts = read_input("ESUL-LIs-LTs e vaos torres.csv")
+df_lis = read_input("ESUL-LIs-exceto linhas.csv")
 
 df_lts = keep_columns(df_lts, ["Local de instalação", "Latitude", "Longitude"])
 df_lts = drop_nan(df_lts, ["Latitude", "Longitude"])
