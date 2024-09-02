@@ -31,7 +31,7 @@ call venv\Scripts\activate
 
 REM Converte arquivos Excel para csv
 echo Executando traduz_input_excel.py...
-python src\preprocessing\traduz_input_excel.py >nul
+python src\util\traduz_input_excel.py >nul
 if %ERRORLEVEL% neq 0 (
     echo Falha ao executar traduz_input_excel.py
     exit /b %ERRORLEVEL%
@@ -41,7 +41,7 @@ if %ERRORLEVEL% neq 0 (
 REM Executar o script Python de pré-processamento local
 cd "%BASE_DIR%"
 echo Executando prep_local.py...
-python src\util\prep_local.py >nul
+python src\preprocessing\treinamento\prep_local.py >nul
 if %ERRORLEVEL% neq 0 (
     echo Falha ao executar prep_local.py
     exit /b %ERRORLEVEL%
@@ -49,7 +49,7 @@ if %ERRORLEVEL% neq 0 (
 
 
 REM Converter e executar os notebooks de acidentes
-cd "%BASE_DIR%src\preprocessing\acidentes"
+cd "%BASE_DIR%src\preprocessing\treinamento\acidentes"
 jupyter nbconvert --to python pre-processamento.ipynb >nul
 echo Executando pre-processamento.py...
 python pre-processamento.py >nul
@@ -81,7 +81,7 @@ del agrupamento.py
 
 
 REM Converter e executar os notebooks de os
-cd "%BASE_DIR%src\preprocessing\os"
+cd "%BASE_DIR%src\preprocessing\treinamento\os"
 jupyter nbconvert --to python pre-processamento-IW47.ipynb >nul
 echo Executando pre-processamento-IW47.py...
 python pre-processamento-IW47.py >nul
