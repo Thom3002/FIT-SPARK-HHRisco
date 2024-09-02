@@ -41,7 +41,7 @@ if %ERRORLEVEL% neq 0 (
 REM Executar o script Python de pré-processamento local
 cd "%BASE_DIR%"
 echo Executando prep_local.py...
-python src\util\prep_local.py >nul
+python src\preprocessing\treinamento\prep_local.py >nul
 if %ERRORLEVEL% neq 0 (
     echo Falha ao executar prep_local.py
     exit /b %ERRORLEVEL%
