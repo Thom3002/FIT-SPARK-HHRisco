@@ -31,7 +31,7 @@ def float_coords(df: pd.DataFrame):
 pathOut = "data/util/"
 
 
-#Comentando as partes onde pegávamos as LTs. 
+# Comentando as partes onde pegávamos as LTs.
 # Para re-incluir as LTs, basta descomentar os que estão em verde, e comentar a última linha que exporta as LIs como tabela de coordenadas.
 
 
@@ -52,4 +52,4 @@ df_lis = float_coords(df_lis)
 #                       sep=";", index=False, encoding="utf-8")
 
 df_lis.to_csv(pathOut + "local_coordenada.csv",
-                      sep=";", index=False, encoding="utf-8")
+              sep=";", index=False, encoding="utf-8")
