@@ -30,18 +30,26 @@ def float_coords(df: pd.DataFrame):
 
 pathOut = "data/util/"
 
-df_lts = read_input("ESUL-LIs-LTs e vaos torres.csv")
+
+#Comentando as partes onde pegávamos as LTs. 
+# Para re-incluir as LTs, basta descomentar os que estão em verde, e comentar a última linha que exporta as LIs como tabela de coordenadas.
+
+
+# df_lts = read_input("ESUL-LIs-LTs e vaos torres.csv")
 df_lis = read_input("ESUL-LIs-exceto linhas.csv")
 
-df_lts = keep_columns(df_lts, ["Local de instalação", "Latitude", "Longitude"])
-df_lts = drop_nan(df_lts, ["Latitude", "Longitude"])
-df_lts = float_coords(df_lts)
+# df_lts = keep_columns(df_lts, ["Local de instalação", "Latitude", "Longitude"])
+# df_lts = drop_nan(df_lts, ["Latitude", "Longitude"])
+# df_lts = float_coords(df_lts)
 
 df_lis = keep_columns(df_lis, ["Local de instalação", "Latitude", "Longitude"])
 df_lis = drop_nan(df_lis, ["Latitude", "Longitude"])
 df_lis = float_coords(df_lis)
 
-df_coordenadas = pd.concat([df_lis, df_lts], axis=0)
+# df_coordenadas = pd.concat([df_lis, df_lts], axis=0)
 
-df_coordenadas.to_csv(pathOut + "local_coordenada.csv",
+# df_coordenadas.to_csv(pathOut + "local_coordenada.csv",
+#                       sep=";", index=False, encoding="utf-8")
+
+df_lis.to_csv(pathOut + "local_coordenada.csv",
                       sep=";", index=False, encoding="utf-8")
