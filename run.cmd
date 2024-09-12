@@ -17,6 +17,9 @@ if exist "%BASE_DIR%venv\" (
     call "%BASE_DIR%venv\Scripts\activate.bat"
 )
 
+REM Ativar o ambiente virtual
+call venv\Scripts\activate
+
 REM Instala as dependências do requirements.txt
     if exist "%BASE_DIR%requirements.txt" (
         echo Instalando dependencias do requirements.txt...
@@ -25,9 +28,6 @@ REM Instala as dependências do requirements.txt
         echo Arquivo requirements.txt nao encontrado.
         exit
     )
-
-REM Ativar o ambiente virtual
-call venv\Scripts\activate
 
 REM Converte arquivos Excel para csv
 echo Executando traduz_input_excel.py...
@@ -55,6 +55,7 @@ echo Executando acidentes/pre-processamento.py...
 python pre-processamento.py >nul
 if %ERRORLEVEL% neq 0 (
     echo Falha ao executar pre-processamento.py
+    del pre-processamento.py
     exit /b %ERRORLEVEL%
 )
 del pre-processamento.py
@@ -65,6 +66,7 @@ echo Executando acidentes/preparacao.py...
 python preparacao.py >nul
 if %ERRORLEVEL% neq 0 (
     echo Falha ao executar preparacao.py
+    del preparacao.py
     exit /b %ERRORLEVEL%
 )
 del preparacao.py
@@ -75,6 +77,7 @@ echo Executando acidentes/agrupamento.py...
 python agrupamento.py >nul
 if %ERRORLEVEL% neq 0 (
     echo Falha ao executar agrupamento.py
+    del agrupamento.py
     exit /b %ERRORLEVEL%
 )
 del agrupamento.py
@@ -87,6 +90,7 @@ echo Executando os/pre-processamento-IW47.py...
 python pre-processamento-IW47.py >nul
 if %ERRORLEVEL% neq 0 (
     echo Falha ao executar pre-processamento-IW47.py
+    del pre-processamento-IW47.py
     exit /b %ERRORLEVEL%
 )
 del pre-processamento-IW47.py
@@ -97,6 +101,7 @@ echo Executando os/preparacao-IW47.py...
 python preparacao-IW47.py >nul
 if %ERRORLEVEL% neq 0 (
     echo Falha ao executar preparacao-IW47.py
+    del preparacao-IW47.py
     exit /b %ERRORLEVEL%
 )
 del preparacao-IW47.py
@@ -107,6 +112,7 @@ echo Executando os/agrupamento.py...
 python agrupamento.py >nul
 if %ERRORLEVEL% neq 0 (
     echo Falha ao executar agrupamento.py
+    del agrupamento.py
     exit /b %ERRORLEVEL%
 )
 del agrupamento.py
@@ -118,6 +124,7 @@ echo Executando treinamento/cruzamento_acidentes_os.py...
 python cruzamento_acidentes_os.py >nul
 if %ERRORLEVEL% neq 0 (
     echo Falha ao executar cruzamento_acidentes_os.py
+    del cruzamento_acidentes_os.py
     exit /b %ERRORLEVEL%
 )
 del cruzamento_acidentes_os.py
@@ -128,6 +135,7 @@ echo Executando treinamento/preparacao.py
 python preparacao.py >nul
 if %ERRORLEVEL% neq 0 (
     echo Falha ao executar preparacao.py
+    del preparacao.py
     exit /b %ERRORLEVEL%
 )
 del preparacao.py
