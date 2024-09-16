@@ -14,5 +14,12 @@ steps:
 
 - task: Bash@3
   inputs:
+    filePath: 'git.sh' # Esse arquivo e responsavel por verificar se a branch está atualizada com a dev
+  displayName: 'Verificação do Git'
+  env:
+    AZURE_DEVOPS_PAT: $(AZURE_DEVOPS_PAT) # Uso do PAT token para comandos Git
+
+- task: Bash@3
+  inputs:
     filePath: 'run.sh'
   displayName: 'Gerar Dataset de Treinamento'
