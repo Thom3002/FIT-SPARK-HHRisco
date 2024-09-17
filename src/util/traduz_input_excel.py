@@ -66,7 +66,7 @@ for arquivo in arquivos:
 
     print(arquivo, 'está sendo traduzido.\n')
     # trata o bd acidentes não ser chamado Sheet1 nem ser a primeira sheet
-    if 'acidentes' in nome_arquivo.lower():
+    if 'acid' in nome_arquivo.lower():
         try:
             df = pd.read_excel(input_path + arquivo,
                                sheet_name='Acidentes', engine='calamine')
