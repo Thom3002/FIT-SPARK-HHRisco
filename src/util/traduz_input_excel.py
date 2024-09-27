@@ -87,7 +87,7 @@ for arquivo in arquivos:
         if not tem_caractere:
             conseguiu_exportar = True
             df.to_csv(input_path + nome_arquivo +
-                      '.csv', sep=c, encoding='utf-8')
+                      '.csv', sep=c, encoding='utf-8', index=False)
             if arquivo in exportacoes['file'].unique():
                 exportacoes.loc[exportacoes['file'] == arquivo, 'sep'] = c
                 separadores_a_guardar.append(arquivo.lower())
