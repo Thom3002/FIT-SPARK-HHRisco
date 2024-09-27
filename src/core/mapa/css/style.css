@@ -1,0 +1,109 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin-top: -25px;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Permite a quebra de linha quando necessário */
+    margin-bottom: 0px;
+}
+
+.header h1 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 0px;
+    flex-grow: 1; /* Faz o título crescer conforme o espaço disponível */
+    min-width: 200px; /* Garante que o título tenha um tamanho mínimo */
+}
+
+.header p {
+    font-size: 18px;
+    color: #666;
+    margin-top: -20px;
+    flex-basis: 100%; /* Força o subtítulo a ocupar toda a largura disponível */
+    text-align: left; /* Ajusta a posição para ficar à esquerda */
+    font-weight: bold;
+}
+
+.warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border-left: 5px solid #ffeeba;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    text-align: left;
+}
+
+.map-container {
+    width: 100%;
+    text-align: center;
+}
+
+.map-container iframe {
+    width: 75%;
+    max-width: 65%; /* Garante que o iframe se ajuste à tela */
+    height: 500px;
+    border: none;
+}
+
+.icon-container {
+    width: 100px;
+    height: 100px;
+}
+
+.icon-container img {
+    width: 100%;
+    height: auto;
+    margin-top: 5px;
+}
+
+.fullscreen-button-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.fullscreen-button-container button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.fullscreen-button-container button:hover {
+    background-color: #0056b3;
+}
+
+@media (max-width: 979px){
+    .icon-container {
+        margin-top: -10px;
+        margin-bottom: 15px;
+    }
+}

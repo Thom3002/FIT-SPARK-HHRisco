@@ -2,7 +2,7 @@ venv/
 env/
 .env/
 .venv/
-*.html
+src/core/mapa/assets/mapa.html
 *.pyc
 pkgs/resolve_path/build
 pkgs/resolve_path/resolve_path.egg-info
