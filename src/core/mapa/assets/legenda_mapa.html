@@ -23,6 +23,16 @@
             width: 20px;
             height: 20px;
             margin-right: 10px;
+            border-radius: 50%; /* Transformar em círculo */
+        }
+
+        .triangle-box {
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 20px solid;
+            margin-right: 10px;
         }
 
         .label {
@@ -31,6 +41,23 @@
     </style>
 </head>
 <body>
+        <!-- Legenda dos Acidentes e seus Potenciais -->
+        <div class="map-legend">
+            <div class="legend-item">
+                <div class="triangle-box" style="border-bottom-color: #d7301f;"></div>
+                <span class="label">Potencial de 1 a 8</span>
+            </div>
+            <div class="legend-item">
+                <div class="triangle-box" style="border-bottom-color: #fec44f;"></div>
+                <span class="label">Potencial de 9 a 12</span>
+            </div>
+            <div class="legend-item">
+                <div class="triangle-box" style="border-bottom-color: #006d2c;"></div>
+                <span class="label">Potencial de 12 a 16</span>
+            </div>
+        </div>
+
+        <!-- Legenda das Substações e suas Probabilidades -->
     <div class="map-legend">
         <div class="legend-item">
             <div class="color-box" style="background: #dfc27d;"></div>
