@@ -1,0 +1,102 @@
+import pandas as pd
+from resolve_path import read_input
+
+
+def keep_columns(df: pd.DataFrame, columns: list):
+    '''
+    Retorna um novo DataFrame com apenas as colunas passadas como argumento
+    '''
+    return df[columns]
+
+
+def drop_nan(df: pd.DataFrame, columns: list):
+    '''
+    Retorna um novo DataFrame sem as linhas que possuem NaN em alguma das colunas passadas como argumento
+    '''
+    return df.dropna(subset=columns, how="any")
+
+
+def float_coords(df: pd.DataFrame):
+    '''
+    Transforma as colunas de Latitude e Longitude em float
+    '''
+    df["latitude"] = df["latitude"].str.replace(
+        ",", ".").str.replace("°", "").astype(float)
+    df["longitude"] = df["longitude"].str.replace(
+        ",", ".").str.replace("°", "").astype(float)
+
+    return df
+
+
+def get_ponto_central(df):
+    '''
+    Retorna o vão central de uma Linha de Transmissão
+    '''
+
+    parts = df.iloc[0]["local_de_instalacao"].split("-")
+    lt = "-".join(parts[:5])
+    vaos = [[df.iloc[0]["local_de_instalacao"],
+             df.iloc[0]["latitude"], df.iloc[0]["longitude"]]]
+
+    for index, row in df.iterrows():
+        new_parts = row["local_de_instalacao"].split("-")
+        new_lt = "-".join(new_parts[:5])
+
+        if lt != new_lt:
+            tam_vaos = len(vaos)
+            idx_meio = tam_vaos//2
+
+            if tam_vaos >= 1:
+                centro = vaos[idx_meio]
+                l_strings = centro[0].split("-")
+                centro[0] = "-".join(l_strings[:5])
+
+                centro_df = pd.DataFrame(
+                    [centro], columns=["local_de_instalacao", "latitude", "longitude"])
+                df = pd.concat([df, centro_df], ignore_index=True)
+
+            lt = new_lt
+            vaos = []
+
+        vaos.append([row["local_de_instalacao"],
+                    row["latitude"], row["longitude"]])
+
+    return df
+
+
+pathOut = "data/util/"
+
+
+# Comentando as partes onde pegávamos as LTs.
+# Para re-incluir as LTs, basta descomentar os que estão em verde, e comentar a última linha que exporta as LIs como tabela de coordenadas.
+
+
+df_lt = read_input("ESUL-LIs-LTs e vaos torres.csv")
+df_li = read_input("ESUL-LIs-exceto linhas.csv")
+
+df_lt = df_lt.rename(columns={"Local de instalação": "local_de_instalacao",
+                              "Latitude": "latitude",
+                              "Longitude": "longitude",
+                              })
+
+df_li = df_li.rename(columns={"Local de instalação": "local_de_instalacao",
+                              "Latitude": "latitude",
+                              "Longitude": "longitude",
+                              })
+
+df_lt = keep_columns(df_lt, ["local_de_instalacao", "latitude", "longitude"])
+df_lt = drop_nan(df_lt, ["latitude", "longitude"])
+df_lt = float_coords(df_lt)
+df_lt = df_lt.sort_values(by=["local_de_instalacao"])
+df_lt = get_ponto_central(df_lt)
+df_lt = df_lt.sort_values(by=["local_de_instalacao"])
+
+df_li = keep_columns(df_li, ["local_de_instalacao", "latitude", "longitude"])
+df_li = drop_nan(df_li, ["latitude", "longitude"])
+df_li = float_coords(df_li)
+df_li = df_li.sort_values(by=["local_de_instalacao"])
+
+df_coordenadas = pd.concat([df_li, df_lt], axis=0)
+
+df_coordenadas.to_csv(pathOut + "local_coordenada.csv",
+                      sep=";", index=False, encoding="utf-8")
