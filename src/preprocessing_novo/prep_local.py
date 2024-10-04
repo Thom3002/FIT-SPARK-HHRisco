@@ -33,10 +33,8 @@ def get_ponto_central(df):
     Retorna o vão central de uma Linha de Transmissão
     '''
 
-    parts = df.iloc[0]["local_de_instalacao"].split("-")
-    lt = "-".join(parts[:5])
-    vaos = [[df.iloc[0]["local_de_instalacao"],
-             df.iloc[0]["latitude"], df.iloc[0]["longitude"]]]
+    lt = "!"
+    vaos = []
 
     for index, row in df.iterrows():
         new_parts = row["local_de_instalacao"].split("-")
@@ -60,6 +58,18 @@ def get_ponto_central(df):
 
         vaos.append([row["local_de_instalacao"],
                     row["latitude"], row["longitude"]])
+
+    tam_vaos = len(vaos)
+    idx_meio = tam_vaos//2
+
+    l_strings = vaos[idx_meio][0].split("-")
+    vaos[idx_meio][0] = "-".join(l_strings[:5])
+
+    if tam_vaos >= 1:
+        centro = vaos[idx_meio]
+        centro_df = pd.DataFrame(
+            [centro], columns=["local_de_instalacao", "latitude", "longitude"])
+        df = pd.concat([df, centro_df], ignore_index=True)
 
     return df
 
