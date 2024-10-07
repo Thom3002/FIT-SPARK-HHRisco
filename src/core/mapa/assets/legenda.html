@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legenda do Mapa</title>
+    <style>
+        .legenda-container {
+            background-color: #f7f7f7;
+            padding: 10%;
+            border-radius: 10px;
+            font-family: Arial, sans-serif;
+            color: #555;
+            width: 130%;
+        }
+
+        h3 {
+            font-size: 1.2vw;
+            color: #6e6d6d;
+            margin-bottom: 0.2vw;
+            font-weight: bold;
+        }
+
+        p {
+            font-size: 1.2vw;
+            margin-bottom: 1vw;
+        }
+
+        .probabilidade {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8vw;
+        }
+
+        .cor-probabilidade {
+            width: 25%;
+            height: 20px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .rotulo-probabilidade {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.1vw;
+            color: #555;
+            margin-bottom: 1.5vw;
+        }
+
+        .legend-item-local {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.9vw;
+            font-size: 1.2vw;
+        }
+
+        .legend-item-potencial {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+            font-size: 1.2vw;
+        }
+
+        .shape {
+            width: 2.1vw;
+            height: 2.1vw;
+            border: 2px solid #555;
+            margin-right: 10px;
+        }
+
+        .linha-transmissao {
+            rotate: 45deg;
+            width: 1.9vw;
+            height: 1.9vw;
+            margin-left: 0.08vw;
+        }
+
+        .subestacao {
+            border-radius: 50%;
+        }
+
+        .triangle {
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 20px solid;
+            margin-right: 10px;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #ccc;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="legenda-container">
+        <h3>LOCAL DE INSTALAÇÃO</h3>
+        <p>Probabilidade (%)</p>
+        <div class="probabilidade">
+            <div class="cor-probabilidade" style="background: #dfc27d;"></div>
+            <div class="cor-probabilidade" style="background: #bf812d;"></div>
+            <div class="cor-probabilidade" style="background: #8c510a;"></div>
+            <div class="cor-probabilidade" style="background: #543105;"></div>
+        </div>
+        <div class="rotulo-probabilidade">
+            <span>0</span><span>25</span><span>50</span><span>75</span><span>100</span>
+        </div>
+        <div class="legend-item-local">
+            <div class="shape linha-transmissao"></div>
+            <span>Linha de transmissão</span>
+        </div>
+        <div class="legend-item-local">
+            <div class="shape subestacao"></div>
+            <span>Subestação</span>
+        </div>
+        <hr>
+        <h3>ACIDENTE</h3>
+        <p>Potencial</p>
+        <div class="legend-item-potencial">
+            <div class="triangle" style="border-bottom-color: #5b1a17;"></div>
+            <span>Fatalidade</span>
+        </div>
+        <div class="legend-item-potencial">
+            <div class="triangle" style="border-bottom-color: #ae3a28;"></div>
+            <span>Alto</span>
+        </div>
+        <div class="legend-item-potencial">
+            <div class="triangle" style="border-bottom-color: #e6c04c;"></div>
+            <span>Médio</span>
+        </div>
+        <div class="legend-item-potencial">
+            <div class="triangle" style="border-bottom-color: #35612c;"></div>
+            <span>Baixo</span>
+        </div>
+    </div>
+</body>
+</html>
