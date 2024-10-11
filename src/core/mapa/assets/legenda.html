@@ -79,6 +79,27 @@
             border-radius: 50%;
         }
 
+        .usina-externo {
+            clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+            width: 2.1vw;
+            height: 2.1vw;
+            border: 2px solid #555;
+            margin-right: 10px;
+            position: relative;
+            background-color: #555; /* Cor da borda externa */
+        }
+
+        .usina-interno {
+            clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+            width: 95%;
+            height: 95%;
+            background-color: #f8f8f8;
+            position: absolute;
+            top: 3%;
+            left: 3%;
+        }
+
+
         .triangle {
             width: 0;
             height: 0;
@@ -115,6 +136,12 @@
         <div class="legend-item-local">
             <div class="shape subestacao"></div>
             <span>Subestação</span>
+        </div>
+        <div class="legend-item-local">
+            <div class="usina-externo">
+                <div class="usina-interno"></div>
+            </div>
+            <span>Usina</span>
         </div>
         <hr>
         <h3>ACIDENTE</h3>
