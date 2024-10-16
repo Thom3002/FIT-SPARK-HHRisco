@@ -41,7 +41,7 @@ if %ERRORLEVEL% neq 0 (
 REM Executar o script Python de pré-processamento local
 cd "%BASE_DIR%"
 echo Executando prep_local.py...
-python src\preprocessing\treinamento\prep_local.py >nul
+python src\preprocessing\prep_local.py >nul
 if %ERRORLEVEL% neq 0 (
     echo Falha ao executar prep_local.py
     exit /b %ERRORLEVEL%
@@ -72,66 +72,22 @@ if %ERRORLEVEL% neq 0 (
 del preparacao.py
 
 
-jupyter nbconvert --to python agrupamento.ipynb >nul
-echo Executando acidentes/agrupamento.py...
-python agrupamento.py >nul
-if %ERRORLEVEL% neq 0 (
-    echo Falha ao executar agrupamento.py
-    del agrupamento.py
-    exit /b %ERRORLEVEL%
-)
-del agrupamento.py
-
-
 REM Converter e executar os notebooks de os
 cd "%BASE_DIR%src\preprocessing\treinamento\os"
-jupyter nbconvert --to python pre-processamento-IW47.ipynb >nul
-echo Executando os/pre-processamento-IW47.py...
-python pre-processamento-IW47.py >nul
+
+jupyter nbconvert --to python pre-processamento.ipynb >nul
+echo Executando os/pre-processamento.py...
+python pre-processamento.py >nul
 if %ERRORLEVEL% neq 0 (
-    echo Falha ao executar pre-processamento-IW47.py
-    del pre-processamento-IW47.py
+    echo Falha ao executar pre-processamento.py
+    del pre-processamento.py
     exit /b %ERRORLEVEL%
 )
-del pre-processamento-IW47.py
+del pre-processamento.py
 
 
-jupyter nbconvert --to python preparacao-IW47.ipynb >nul
-echo Executando os/preparacao-IW47.py...
-python preparacao-IW47.py >nul
-if %ERRORLEVEL% neq 0 (
-    echo Falha ao executar preparacao-IW47.py
-    del preparacao-IW47.py
-    exit /b %ERRORLEVEL%
-)
-del preparacao-IW47.py
-
-
-jupyter nbconvert --to python agrupamento.ipynb >nul
-echo Executando os/agrupamento.py...
-python agrupamento.py >nul
-if %ERRORLEVEL% neq 0 (
-    echo Falha ao executar agrupamento.py
-    del agrupamento.py
-    exit /b %ERRORLEVEL%
-)
-del agrupamento.py
-
-REM Converter e executar o notebook de integração
-cd "%BASE_DIR%src\preprocessing\treinamento"
-jupyter nbconvert --to python cruzamento_acidentes_os.ipynb >nul
-echo Executando treinamento/cruzamento_acidentes_os.py...
-python cruzamento_acidentes_os.py >nul
-if %ERRORLEVEL% neq 0 (
-    echo Falha ao executar cruzamento_acidentes_os.py
-    del cruzamento_acidentes_os.py
-    exit /b %ERRORLEVEL%
-)
-del cruzamento_acidentes_os.py
-
-REM Converter e executar o notebook de preparacao do dataset de treinamento
 jupyter nbconvert --to python preparacao.ipynb >nul
-echo Executando treinamento/preparacao.py
+echo Executando os/preparacao.py...
 python preparacao.py >nul
 if %ERRORLEVEL% neq 0 (
     echo Falha ao executar preparacao.py
@@ -139,6 +95,32 @@ if %ERRORLEVEL% neq 0 (
     exit /b %ERRORLEVEL%
 )
 del preparacao.py
+
+
+REM Converter e executar o notebook de cruzamento entre acidentes e operações
+cd "%BASE_DIR%src\preprocessing\treinamento"
+
+jupyter nbconvert --to python cruzamento_acidente_op.ipynb >nul
+echo Executando treinamento/cruzamento_acidente_op.py...
+python cruzamento_acidente_op.py >nul
+if %ERRORLEVEL% neq 0 (
+    echo Falha ao executar cruzamento_acidente_op.py
+    del cruzamento_acidente_op.py
+    exit /b %ERRORLEVEL%
+)
+del cruzamento_acidente_op.py
+
+
+REM Converter e executar o notebook de agrupamento dos datasets para o treinamento
+jupyter nbconvert --to python agrupamento.ipynb >nul
+echo Executando treinamento/agrupamento.py
+python agrupamento.py >nul
+if %ERRORLEVEL% neq 0 (
+    echo Falha ao executar agrupamento.py
+    del agrupamento.py
+    exit /b %ERRORLEVEL%
+)
+del agrupamento.py
 
 
 echo Pipeline concluida.

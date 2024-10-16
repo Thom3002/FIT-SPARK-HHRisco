@@ -37,14 +37,16 @@ fi
 
 # Executar o script Python de pré-processamento local
 echo "Executando prep_local.py..."
-python "$BASE_DIR/src/preprocessing/treinamento/prep_local.py" >/dev/null
+python "$BASE_DIR/src/preprocessing/prep_local.py" >/dev/null
 if [ $? -ne 0 ]; then
     echo "Falha ao executar prep_local.py"
     exit 1
 fi
 
+
 # Converter e executar os notebooks de acidentes
 cd "$BASE_DIR/src/preprocessing/treinamento/acidentes"
+
 jupyter nbconvert --to python pre-processamento.ipynb >/dev/null
 echo "Executando acidentes/pre-processamento.py..."
 python pre-processamento.py >/dev/null
@@ -54,6 +56,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 rm pre-processamento.py
+
 
 jupyter nbconvert --to python preparacao.ipynb >/dev/null
 echo "Executando acidentes/preparacao.py..."
@@ -65,63 +68,23 @@ if [ $? -ne 0 ]; then
 fi
 rm preparacao.py
 
-jupyter nbconvert --to python agrupamento.ipynb >/dev/null
-echo "Executando acidentes/agrupamento.py..."
-python agrupamento.py >/dev/null
-if [ $? -ne 0 ]; then
-    echo "Falha ao executar agrupamento.py"
-    rm agrupamento.py
-    exit 1
-fi
-rm agrupamento.py
 
 # Converter e executar os notebooks de OS
 cd "$BASE_DIR/src/preprocessing/treinamento/os"
-jupyter nbconvert --to python pre-processamento-IW47.ipynb >/dev/null
-echo "Executando os/pre-processamento-IW47.py..."
-python pre-processamento-IW47.py >/dev/null
+
+jupyter nbconvert --to python pre-processamento.ipynb >/dev/null
+echo "Executando os/pre-processamento.py..."
+python pre-processamento.py >/dev/null
 if [ $? -ne 0 ]; then
-    echo "Falha ao executar pre-processamento-IW47.py"
-    rm pre-processamento-IW47.py
+    echo "Falha ao executar pre-processamento.py"
+    rm pre-processamento.py
     exit 1
 fi
-rm pre-processamento-IW47.py
+rm pre-processamento.py
 
-jupyter nbconvert --to python preparacao-IW47.ipynb >/dev/null
-echo "Executando os/preparacao-IW47.py..."
-python preparacao-IW47.py >/dev/null
-if [ $? -ne 0 ]; then
-    echo "Falha ao executar preparacao-IW47.py"
-    rm preparacao-IW47.py
-    exit 1
-fi
-rm preparacao-IW47.py
 
-jupyter nbconvert --to python agrupamento.ipynb >/dev/null
-echo "Executando os/agrupamento.py..."
-python agrupamento.py >/dev/null
-if [ $? -ne 0 ]; then
-    echo "Falha ao executar agrupamento.py"
-    rm agrupamento.py
-    exit 1
-fi
-rm agrupamento.py
-
-# Converter e executar o notebook de integração
-cd "$BASE_DIR/src/preprocessing/treinamento"
-jupyter nbconvert --to python cruzamento_acidentes_os.ipynb >/dev/null
-echo "Executando treinamento/cruzamento_acidentes_os.py..."
-python cruzamento_acidentes_os.py >/dev/null
-if [ $? -ne 0 ]; then
-    echo "Falha ao executar cruzamento_acidentes_os.py"
-    rm cruzamento_acidentes_os.py
-    exit 1
-fi
-rm cruzamento_acidentes_os.py
-
-# Converter e executar o notebook de preparação do dataset de treinamento
 jupyter nbconvert --to python preparacao.ipynb >/dev/null
-echo "Executando treinamento/preparacao.py"
+echo "Executando os/preparacao.py..."
 python preparacao.py >/dev/null
 if [ $? -ne 0 ]; then
     echo "Falha ao executar preparacao.py"
@@ -129,6 +92,33 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 rm preparacao.py
+
+
+# Converter e executar o notebook de cruzamento entre acidentes e operações
+cd "$BASE_DIR/src/preprocessing/treinamento"
+
+jupyter nbconvert --to python cruzamento_acidente_op.ipynb >/dev/null
+echo "Executando treinamento/cruzamento_acidente_op.py..."
+python cruzamento_acidente_op.py >/dev/null
+if [ $? -ne 0 ]; then
+    echo "Falha ao executar cruzamento_acidente_op.py"
+    rm cruzamento_acidente_op.py
+    exit 1
+fi
+rm cruzamento_acidente_op.py
+
+
+# Converter e executar o notebook de agrupamento dos datasets para o treinamento
+jupyter nbconvert --to python agrupamento.ipynb
+echo "Executando treinamento/agrupamento.py"
+python agrupamento.py
+if [ $? -ne 0 ]; then
+    echo "Falha ao executar agrupamento.py"
+    rm agrupamento.py
+    exit 1
+fi
+rm agrupamento.py
+
 
 echo "Pipeline concluída."
 
