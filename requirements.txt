@@ -1,3 +1,4 @@
+flask==3.0.3
 folium==0.17.0
 ipykernel==6.29.5
 nbconvert==7.16.4

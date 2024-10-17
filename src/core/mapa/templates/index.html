@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Probabilidade de Ocorrência de Acidentes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <h1>Probabilidade máxima de ocorrência de acidentes na CGT Eletrosul</h1>
+                <div class="icon-container">
+                    <img src="{{ url_for('static', filename='assets/logo_svaa.png') }}" alt="logo" />
+                </div>
+            </div>
+            <p>por Local de Instalação</p>
+        </header>
+
+        <div class="warning">
+            <p>⚠️ As probabilidades apresentadas foram calculadas com base em dados considerados insuficientes para tomada de decisões.</p>
+        </div>
+
+        <div class="filter-container">
+            <label for="mes">Mês:</label>
+            <select id="mes">
+                <option value="1">Janeiro</option>
+                <option value="2">Fevereiro</option>
+                <option value="3">Março</option>
+                <option value="4">Abril</option>
+                <option value="5">Maio</option>
+                <option value="6">Junho</option>
+                <option value="7" selected>Julho</option>
+                <option value="8">Agosto</option>
+                <option value="9">Setembro</option>
+                <option value="10">Outubro</option>
+                <option value="11">Novembro</option>
+                <option value="12">Dezembro</option>
+            </select>
+
+            <label for="ano">Ano:</label>
+            <select id="ano">
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024" selected>2024</option>
+            </select>
+
+            <button id="atualizarMapa">Atualizar Mapa</button>
+        </div>
+
+        <div class="map-container">
+            <div id="mapDiv">
+                <!-- O conteúdo do mapa será carregado dinamicamente aqui -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function atualizarOpcoesData() {
+            const mesSelect = document.getElementById('mes');
+            const anoSelect = document.getElementById('ano');
+            const mes = parseInt(mesSelect.value);
+            const ano = parseInt(anoSelect.value);
+
+            // habilita todos os meses
+            for (let i = 0; i < mesSelect.options.length; i++) {
+                mesSelect.options[i].disabled = false;
+            }
+
+            // habilita todos os anos
+            for (let i = 0; i < anoSelect.options.length; i++) {
+                anoSelect.options[i].disabled = false;
+            }
+
+            // Se o ano for 2024, desativa meses após julho
+            if (ano === 2024) {
+                for (let i = 7; i < mesSelect.options.length; i++) {
+                    mesSelect.options[i].disabled = true;
+                }
+            }
+
+            // Se o mês selecionado for maior que julho, desativa o ano 2024
+            if (mes > 7) {
+                for (let i = 0; i < anoSelect.options.length; i++) {
+                    if (anoSelect.options[i].value === '2024') {
+                        anoSelect.options[i].disabled = true;
+                    }
+                }
+            }
+        }
+
+        function atualizarMapa() {
+            const mes = document.getElementById('mes').value;
+            const ano = document.getElementById('ano').value;
+
+            // Cria uma URL para solicitar a atualização do mapa
+            const url = `/atualizar_mapa?mes=${mes}&ano=${ano}`;
+
+            const atualizarBotao = document.getElementById('atualizarMapa');
+            atualizarBotao.classList.add('loading'); // Adiciona a classe de carregamento ao botão
+
+            // Faz a solicitação ao servidor para atualizar o mapa
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    // Atualiza a div com o novo conteúdo do mapa
+                    const mapDiv = document.getElementById('mapDiv');
+                    mapDiv.innerHTML = data;
+                    atualizarBotao.classList.remove('loading');
+                })
+                .catch(error => {
+                    console.error('Erro ao atualizar o mapa:', error);
+                    atualizarBotao.classList.remove('loading');
+                });
+        }
+
+        document.getElementById('ano').addEventListener('change', atualizarOpcoesData);
+        document.getElementById('mes').addEventListener('change', atualizarOpcoesData);
+        document.getElementById('atualizarMapa').addEventListener('click', atualizarMapa);
+
+        // Inicializar o estado das opções de mês quando a página for carregada
+        document.addEventListener('DOMContentLoaded', function() {
+            atualizarOpcoesData();  // Configura os meses disponíveis inicialmente
+            atualizarMapa();       // Atualiza o mapa inicialmente para Julho de 2024
+        });
+    </script>
+
+</body>
+
+</html>
