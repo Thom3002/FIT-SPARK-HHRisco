@@ -7,7 +7,7 @@ from .resolve_dir import ajuste_path, get_separator
 
 class WrongFileExtensionError(Exception):
     """
-    Classe de erro para o caso onde o arquivo csv não foi encontrado.
+    Classe de erro para o caso onde o arquivo usa a extensão errada.
     """
 
     def __init__(self, message):
@@ -21,6 +21,7 @@ class WrongFileExtensionError(Exception):
 def read_input(input_file):
     '''
     Função que lê um csv de input recebendo como entrada apenas o path relativo ao root do arquivo desejado.
+    Só funciona para arquivos que estejam na pasta data/input/ deste repsitório
     '''
     nome, extensao = os.path.splitext(input_file)
     if extensao != '.csv':
@@ -30,4 +31,4 @@ def read_input(input_file):
     df = pd.read_csv(path + input_file, sep=get_separator(
         input_file), encoding='utf-8')
 
-    return df.copy()
+    return df

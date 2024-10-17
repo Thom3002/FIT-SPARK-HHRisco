@@ -76,14 +76,11 @@ def get_ponto_central(df):
 
 pathOut = "data/util/"
 
-
-# Comentando as partes onde pegávamos as LTs.
-# Para re-incluir as LTs, basta descomentar os que estão em verde, e comentar a última linha que exporta as LIs como tabela de coordenadas.
-
-
 df_lt = read_input("ESUL-LIs-LTs e vaos torres.csv")
 df_li = read_input("ESUL-LIs-exceto linhas.csv")
 
+
+# preprocessa as colunas que serão usadas
 df_lt = df_lt.rename(columns={"Local de instalação": "local_de_instalacao",
                               "Latitude": "latitude",
                               "Longitude": "longitude",
@@ -106,6 +103,9 @@ df_li = drop_nan(df_li, ["latitude", "longitude"])
 df_li = float_coords(df_li)
 df_li = df_li.sort_values(by=["local_de_instalacao"])
 
+
+# junta as informações de subestações e de linhas de transmissão em um
+# dataframe de locais de instalação unificado
 df_coordenadas = pd.concat([df_li, df_lt], axis=0)
 
 df_coordenadas.to_csv(pathOut + "local_coordenada.csv",

@@ -47,13 +47,3 @@ def get_separator(arquivo):
     if result is np.nan:
         return ','
     return result
-
-
-# path = ajuste_path('data/input/Suporte-TAM.csv')
-
-# try:
-#     with open(path, 'r') as r:
-#         bla = r.readline()
-#         print('abriu corretamente')
-# except FileNotFoundError:
-#     print('abriu o caminho errado')
