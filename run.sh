@@ -120,6 +120,17 @@ fi
 rm agrupamento.py
 
 
+REM Converter e executar o notebook de adição dos dados meteorológicos
+jupyter nbconvert --to python obtem_dados_meteorologicos.ipynb
+echo "Executando treinamento/obtem_dados_meteorologicos.py"
+python obtem_dados_meteorologicos.py
+if [ $? -ne 0 ]; then
+    echo "Falha ao executar obtem_dados_meteorologicos.py"
+    rm obtem_dados_meteorologicos.py
+    exit 1
+fi
+rm obtem_dados_meteorologicos.py
+
 echo "Pipeline concluída."
 
 # Voltar para o diretório raiz

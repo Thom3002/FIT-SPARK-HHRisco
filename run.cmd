@@ -122,6 +122,16 @@ if %ERRORLEVEL% neq 0 (
 )
 del agrupamento.py
 
+REM Converter e executar o notebook de adição dos dados meteorológicos
+jupyter nbconvert --to python obtem_dados_meteorologicos.ipynb >nul
+echo Executando treinamento/obtem_dados_meteorologicos.py
+python obtem_dados_meteorologicos.py >nul
+if %ERRORLEVEL% neq 0 (
+    echo Falha ao executar obtem_dados_meteorologicos.py
+    del obtem_dados_meteorologicos.py
+    exit /b %ERRORLEVEL%
+)
+del obtem_dados_meteorologicos.py
 
 echo Pipeline concluida.
 
