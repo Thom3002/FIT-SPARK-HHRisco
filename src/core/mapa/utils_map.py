@@ -155,7 +155,7 @@ def adiciona_acidente(mapa, row, color):
         f"<b>Local Associado:</b> <span>{row['local_de_instalacao']}</span><br>"
         f"<b>ID do Funcionário:</b> <span>{row['no_pessoal']}</span><br>"
         f"<b>Classificação:</b> <span>{row['classificacao_acidente']}</span><br>"
-        f"<b>Mes do Acidente:</b> <span>{row['data_acidente']}</span>"
+        f"<b>Mês do Acidente:</b> <span>{row['data_acidente']}</span>"
         # f"<b>Potencial:</b> <span>{row['potencial_acidente']}</span><br>"
     )
     # Ajuste o valor de max_width conforme necessário
