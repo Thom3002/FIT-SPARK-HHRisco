@@ -110,7 +110,6 @@ exportacoes.replace({',': np.nan}, inplace=True)
 
 print(separadores_a_guardar)
 
-# bacalhau
 mask = exportacoes['file'].str.lower().isin(separadores_a_guardar)
 exportacoes = exportacoes[mask]
 
