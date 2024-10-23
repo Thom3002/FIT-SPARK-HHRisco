@@ -1,3 +1,4 @@
+/* Arquivo responsável pela estilização do html no qual o mapa está contido */
 /* Reset básico */
 * {
     margin: 0;
@@ -39,15 +40,15 @@ body {
     color: #333;
     margin-bottom: 0px;
     flex-grow: 1; /* Faz o título crescer conforme o espaço disponível */
-    min-width: 200px; /* Garante que o título tenha um tamanho mínimo */
+    min-width: 200px;
 }
 
 .header p {
     font-size: 18px;
     color: #666;
     margin-top: -20px;
-    flex-basis: 100%; /* Força o subtítulo a ocupar toda a largura disponível */
-    text-align: left; /* Ajusta a posição para ficar à esquerda */
+    flex-basis: 100%;
+    text-align: left;
     font-weight: bold;
 }
 
@@ -99,7 +100,7 @@ body {
     height: 40% !important;
 }
 
-
+/* Responsividade para que a logo do SVAA fique centralizada dependendo do tamanho da tela */
 @media (max-width: 979px){
     .icon-container {
         margin-top: -6px;

@@ -1,3 +1,6 @@
+# Arquivo responsável por gerar o html do mapa
+# Contém a definição da função atualizar_mapa e suas funções auxiliares,
+# que são chamadas pela API em 'app.py' para atualizar o mapa de acordo com o filtro de seleção de data.
 import os
 
 import folium
@@ -5,23 +8,33 @@ import numpy as np
 import pandas as pd
 import requests as req
 from branca.element import MacroElement
-from flask import Flask, render_template, request
+from flask import request
 from folium.plugins import Fullscreen
 from jinja2 import Template
 from resolve_path import ajuste_path
 
-corMaisFraca = "#dfc27d"
-corMediaFraca = "#bf812d"
-corMediaForte = "#8c510a"
-corMaisForte = "#543105"
+# Cores utilizadas na paleta de cores de probabilidade
+corMaisFracaProbabilidade = "#dfc27d"
+corMediaFracaProbabilidade = "#bf812d"
+corMediaForteProbabilidade = "#8c510a"
+corMaisForteProbabilidade = "#543105"
 
-cores_intermediarias_gradiente = [
-    corMaisFraca, corMediaFraca, corMediaForte, corMaisForte]
-
-# Define a classe Legend (Para que a legenda não desapareça no modo fullscreen)
+# Cores utilizadas na paleta de cores de acidentes
+corAcidenteFatalidade = "#000000"
+corAcidentePotencialAlto = "#d7301f"
+corAcidentePotencialMedio = "#fec44f"
+corAcidentePotencialBaixo = "#006d2c"
 
 
 class Legend(MacroElement):
+    """
+    Classe Legend para adicionar uma legenda personalizada ao mapa Folium.
+
+    Esta classe permite adicionar uma legenda personalizada ao mapa Folium, garantindo que a legenda
+    não desapareça no modo fullscreen. A legenda é adicionada como um controle no mapa, com a
+    possibilidade de ajustar a posição e a margem direita.
+    """
+
     def __init__(self, legend_html, marginright, position='bottomright'):
         super(Legend, self).__init__()
         self._name = 'Legend'
@@ -50,25 +63,26 @@ class Legend(MacroElement):
 
 
 def get_color_discrete(probabilidade):
+    """Função que retorna a cor da lista global de acordo com a probabilidade"""
     if probabilidade is np.nan:
         return "#000000"
     elif probabilidade < 0.25:
-        return corMaisFraca
+        return corMaisFracaProbabilidade
     elif probabilidade < 0.5:
-        return corMediaFraca
+        return corMediaFracaProbabilidade
     elif probabilidade < 0.75:
-        return corMediaForte
+        return corMediaForteProbabilidade
     else:
-        return corMaisForte
+        return corMaisForteProbabilidade
 
 
 def get_font_color(marker_color):
     """Define a cor da probabilidade de acordo com a cor do marcador."""
-    if marker_color in [corMaisForte, corMediaForte]:
-        return corMaisFraca
-    elif marker_color == corMaisFraca:
-        return corMediaForte
-    return corMaisForte
+    if marker_color in [corMaisForteProbabilidade, corMediaForteProbabilidade]:
+        return corMaisFracaProbabilidade
+    elif marker_color == corMaisFracaProbabilidade:
+        return corMediaForteProbabilidade
+    return corMaisForteProbabilidade
 
 
 def criar_popup(row):
@@ -146,19 +160,15 @@ def filtra_df_por_tempo(df, mes, ano):
     df = df.query("`mes` == @mes and `ano` == @ano")
     return df
 
-# Função para adicionar um marcador com o acidente ao mapa
-
 
 def adiciona_acidente(mapa, row, color):
-
+    """Função que adiciona o marcador de um acidente ao mapa."""
     popup_content = (
         f"<b>Local Associado:</b> <span>{row['local_de_instalacao']}</span><br>"
         f"<b>ID do Funcionário:</b> <span>{row['no_pessoal']}</span><br>"
         f"<b>Classificação:</b> <span>{row['classificacao_acidente']}</span><br>"
         f"<b>Mês do Acidente:</b> <span>{row['data_acidente']}</span>"
-        # f"<b>Potencial:</b> <span>{row['potencial_acidente']}</span><br>"
     )
-    # Ajuste o valor de max_width conforme necessário
     popup = folium.Popup(popup_content, max_width=2650, offset=(5, 0))
 
     folium.Marker(
@@ -198,6 +208,7 @@ def adiciona_acidente(mapa, row, color):
 
 
 def adiciona_camadas(map_object, df, nome_camada):
+    """Função que adiciona as camadas de marcadores (Locais de instalção com as probabilidades) ao mapa."""
     camada = folium.FeatureGroup(name=nome_camada)
     for _, row in df.iterrows():
         color = get_color_discrete(row["probabilidade"])
@@ -218,6 +229,18 @@ def adiciona_camadas(map_object, df, nome_camada):
 
 
 def atualizar_mapa():
+    """
+    Função que é chamada pela API para atualizar o mapa de acordo com o filtro de seleção de data.
+
+    É responsável por carregar os datasets, filtrar os dados de acordo com a data especificada e
+    criar o mapa com os marcadores de Locais de Instalação com suas respectivas probabilidades
+    de ocorrência de acidentes para aquele mês e ano.
+
+    Retorna:
+    --------
+    str
+        o HTML do mapa atualizado.
+    """
     mes = int(request.args.get('mes'))
     ano = int(request.args.get('ano'))
 
@@ -228,10 +251,11 @@ def atualizar_mapa():
     # Remover as linhas onde as colunas 'latitude' ou 'longitude' estejam NaN
     df_mapa = df_mapa.dropna(subset=['latitude', 'longitude'])
 
-    # Filtra o df_mapa com os valores da data especificada
+    # Filtra o df_mapa somente com os valores de probabilidade máxima para cada local, ano e mês.
     df_mapa_max_prob = df_mapa.loc[df_mapa.groupby(
         ['ano', 'mes', 'local_de_instalacao'])['probabilidade'].idxmax()]
 
+    # Filtra o df_mapa com os valores da data especificada
     df_filtrado = filtra_df_por_tempo(df_mapa_max_prob, mes, ano)
 
     # Cria o mapa
@@ -281,14 +305,10 @@ def atualizar_mapa():
     ).add_to(camada_poligonos_brasil)
     mapa.add_child(camada_poligonos_brasil)
 
-    # Filtra o df_mapa somente com os valores de probabilidade máxima para cada local, ano e mês.
-    df_mapa_max_prob = df_mapa.loc[df_mapa.groupby(
-        ['ano', 'mes', 'local_de_instalacao'])['probabilidade'].idxmax()]
-
-    # Adiciona camada ao mapa
+    # Adiciona camada contendo os locais de instalação com as probabilidades a partir do df_filtrado
     adiciona_camadas(mapa, df_filtrado, f"Exibir probabilidade de {mes}/{ano}")
 
-    # Filtrar o DataFrame para remover linhas com valores NaN nas colunas de latitude e longitude
+    # Filtrar o DataFrame para remover linhas com valores NaN nas colunas de latitude e longitude do acidente
     df_acidentes = df_mapa.dropna(
         subset=['latitude_acidente', 'longitude_acidente'])
 
@@ -298,13 +318,13 @@ def atualizar_mapa():
     # Adicionar marcadores ao mapa para os acidentes
     for _, row in df_acidentes.iterrows():
         if row['classificacao_acidente'] == 'fatalidade':
-            color = '#000000'
+            color = corAcidenteFatalidade
         elif row['potencial_acidente'] <= 8:
-            color = '#d7301f'
+            color = corAcidentePotencialAlto
         elif row['potencial_acidente'] <= 12:
-            color = '#fec44f'
+            color = corAcidentePotencialMedio
         else:
-            color = '#006d2c'
+            color = corAcidentePotencialBaixo
         adiciona_acidente(mapa, row, color)
     # Retorna o HTML do mapa
     return mapa._repr_html_()
