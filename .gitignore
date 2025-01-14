@@ -9,3 +9,4 @@ pkgs/resolve_path/resolve_path.egg-info
 data/util/*.csv
 data/util/**/*.csv
 *.cache.sqlite
+data/
