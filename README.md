@@ -6,24 +6,6 @@
 - [Python 3.11.7](https://www.python.org/downloads/release/python-3117/)
 - O diretório base da pasta de código deve ser chamado `FIT-SPARK-HHRisco`.
 
-## Dados de entrada
-- bd_acidentes.xlsx
-- IW47-Confirmações_Executadas_2020-a-28jun24.xlsx
-- ESUL-LIs-exceto linhas.xlsx
-- ESUL-LIs-LTs e vaos torres.xlsx
-- Suporte-TAM.xlsx
-- ZPM_DATAS_ORDEM_Executadas-2020-até-28jun24.xlsx
-
-## Dado de entrada opcional
-- dataset_dados_meteorologicos.csv
-Para acelerar a execução do código, é recomendado incluir o arquivo acima. Ele estará disponível na pasta compactada `Dados.zip`
-
-## Setup
-1. Abrir a pasta `Dados`.
-2. Copiar os dados de entrada dentro da pasta.
-3. Abrir a pasta `FIT-SPARK-HHRisco`.
-4. Colar as tabelas copiadas na pasta `FIT-SPARK-HHRisco\data\input`.
-
 ## Instalação
 1. Abrir o terminal no diretório base da pasta de código `FIT-SPARK-HHRisco`.
 2. Executar o comando de instalação das bibliotecas.
@@ -74,3 +56,4 @@ Por exemplo: `http://127.0.0.1:5000`
 Para retreinar os modelos com os dados atualizados, é necessário:
 1. Inserir os dados atualizados na pasta `Dados` (vide Setup)
 2. Executar o passo a passo da seção `Como usar`
+
